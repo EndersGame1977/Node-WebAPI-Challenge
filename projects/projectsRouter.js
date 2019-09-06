@@ -6,7 +6,7 @@ const actions = require("../data/helpers/actionModel.js");
 
 // CRUD, Create, Read, Update, Delete
 // CRUD is finished on Projects
-// CRUD is not finished on Actions
+// CRUD is finished on Actions
 
 //*** Projects ***//
 // Read all projects
