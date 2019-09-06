@@ -1,35 +1,18 @@
 const express = require("express");
 const router = express.Router();
 
-// users == projects
-// posts == actions
 const projects = require("../data/helpers/projectModel.js");
 const actions = require("../data/helpers/projectModel.js");
 
-router.post("/", (req, res) => {
-  const project = req.body;
-  projects
-    .insert(project)
-    .then(id => {
-      res.status(201).json(id);
-    })
-    .catch(error => {
-      res.status(500).json({ message: error.message });
-    });
-});
+// CRUD, Create, Read, Update, Delete
 
-router.post("/:id/actions", validateUser, validatePost, (req, res) => {
-  const action = req.body;
-  action.project_id = req.project.id;
-  actions.insert(action).then(action => {
-    res.status(201).json(action);
-  });
-});
-
+// Read all projects
 router.get("/", (req, res) => {
+  // helper
   projects
     .get()
-    .then(uprojects => {
+    // promise
+    .then(projects => {
       res.status(200).json(projects);
     })
     .catch(error => {
@@ -37,61 +20,22 @@ router.get("/", (req, res) => {
     });
 });
 
-router.get("/:id", validateUserId, (req, res) => {});
+// Read a project
+router.get("/:id", (req, res) => {});
 
+// Read actions on a project
 router.get("/:id/actions", (req, res) => {});
 
+// Create project
+router.post("/", (req, res) => {});
+
+// Create action on a project
+router.post("/:id/actions", (req, res) => {});
+
+// Delete a project
 router.delete("/:id", (req, res) => {});
 
-router.put("/:id", (req, res) => {
-  console.log(req.params.id);
-});
-
-//custom middleware
-
-function validateUserId(req, res, next) {
-  console.log("Validating user");
-  if (req.params.id) {
-    users.getById(req.params.id).then(user => {
-      if (user) {
-        console.log("User Object", user);
-        req.user = user;
-        next();
-      } else {
-        res.status(404).json({ message: "User not found" });
-      }
-    });
-  } else {
-    res.status(400).json({ message: "Please provide an ID" });
-  }
-}
-
-function validateUser(req, res, next) {
-  if (!req.body) {
-    res.status(400).json({ message: "missing user data" });
-  } else if (req.body.name) {
-    next();
-  } else {
-    res.status(400).json({ message: "missing required name field" });
-  }
-}
-
-//function validateUser(req, res, next) {
-//const users = req.body;
-//if (users.name) {
-//next();
-//} else {
-//res.status(400).json({ message: "Missing a name" });
-//}
-//}
-
-function validatePost(req, res, next) {
-  const post = req.body;
-  if (post.text) {
-    next();
-  } else {
-    res.status(400).json({ message: "Post is missing text" });
-  }
-}
+// Update a project
+router.put("/:id", (req, res) => {});
 
 module.exports = router;

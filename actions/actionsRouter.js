@@ -1,11 +1,12 @@
 const express = require("express");
 const router = express.Router();
 
-// users == projects
-// posts == actions
+const db = require("../data/helpers/projectModel.js");
+
 const projects = require("../data/helpers/projectModel.js");
 const actions = require("../data/helpers/projectModel.js");
 
+// Create Project
 router.post("/", (req, res) => {
   const project = req.body;
   projects
@@ -18,14 +19,18 @@ router.post("/", (req, res) => {
     });
 });
 
-router.post("/:id/actions", validateUser, validatePost, (req, res) => {
-  const action = req.body;
-  action.project_id = req.project.id;
-  actions.insert(action).then(action => {
-    res.status(201).json(action);
-  });
+// Create action in project
+router.post("/:id/actions", (req, res) => {
+  db.getProjectActions(req.params.id)
+    .then(projects => {
+      res.status(200).json(projects);
+    })
+    .catch(error => {
+      res.status(500).json({ error: error.message });
+    });
 });
 
+// Read all projects
 router.get("/", (req, res) => {
   projects
     .get()
@@ -37,7 +42,16 @@ router.get("/", (req, res) => {
     });
 });
 
-router.get("/:id", validateUserId, (req, res) => {});
+// Read just one project
+router.get("/:id", (req, res) => {
+  db.get(req.params.id)
+    .then(projects => {
+      res.status(200).json(projects);
+    })
+    .catch(error => {
+      res.status(500).json({ error: error.message });
+    });
+});
 
 router.get("/:id/actions", (req, res) => {});
 
