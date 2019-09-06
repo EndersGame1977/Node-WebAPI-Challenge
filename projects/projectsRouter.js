@@ -78,6 +78,15 @@ router.delete("/:id", (req, res) => {
 });
 
 // Update a project
-router.put("/:id", (req, res) => {});
+router.put("/:id", (req, res) => {
+  // helper
+  projects
+    .update(req.params.id, req.body)
+    // promise
+    .then(res.status(200).json({ message: "Updated project" }))
+    .catch(error => {
+      res.status(500).json({ message: error.message });
+    });
+});
 
 module.exports = router;
