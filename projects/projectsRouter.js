@@ -111,6 +111,15 @@ router.delete("/actions/:id", (req, res) => {
 });
 
 // Create a action
-router.post("/actions", (req, res) => {});
+router.post("/actions", (req, res) => {
+  // helper
+  actions
+    .insert(req.body)
+    // promises
+    .then(res.status(200).json({ message: "Action created" }))
+    .catch(error => {
+      res.status(500).json({ message: error.message });
+    });
+});
 
 module.exports = router;
