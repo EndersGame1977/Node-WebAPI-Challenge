@@ -72,7 +72,7 @@ router.put("/:id", (req, res) => {
 });
 
 //*** Actions ***//
-// Read all actions
+// Read a action
 router.get("/actions/:id", (req, res) => {
   // helper
   actions
@@ -86,12 +86,11 @@ router.get("/actions/:id", (req, res) => {
     });
 });
 
-// Update a project with a action
-router.put("/:id/action", (req, res) => {
+// Update a action
+router.put("/actions/:id", (req, res) => {
   // helper
-  const body = req.body;
-  projects
-    .update(req.params.id, req.body.actions)
+  actions
+    .update(req.params.id, req.body)
     // promise
     .then(res.status(200).json({ message: "Updated project with action" }))
     .catch(error => {
