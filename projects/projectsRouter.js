@@ -66,7 +66,16 @@ router.post("/", (req, res) => {
 router.post("/:id/actions", (req, res) => {});
 
 // Delete a project
-router.delete("/:id", (req, res) => {});
+router.delete("/:id", (req, res) => {
+  // helper
+  projects
+    .remove(req.params.id)
+    // promise
+    .then(res.status(200).json({ message: "Project deleted" }))
+    .catch(error => {
+      res.status(500).json({ message: error.message });
+    });
+});
 
 // Update a project
 router.put("/:id", (req, res) => {});
