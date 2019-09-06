@@ -21,7 +21,18 @@ router.get("/", (req, res) => {
 });
 
 // Read a project
-router.get("/:id", (req, res) => {});
+router.get("/:id", (req, res) => {
+  // helper
+  projects
+    .get(req.params.id)
+    // promise
+    .then(project => {
+      res.status(200).json(project);
+    })
+    .catch(error => {
+      res.status(500).json({ message: error.message });
+    });
+});
 
 // Read actions on a project
 router.get("/:id/actions", (req, res) => {});
