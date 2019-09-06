@@ -98,4 +98,19 @@ router.put("/actions/:id", (req, res) => {
     });
 });
 
+// Delete a action
+router.delete("/actions/:id", (req, res) => {
+  // helpers
+  actions
+    .remove(req.params.id)
+    // promises
+    .then(res.status(200).json({ message: "Deleted action" }))
+    .catch(error => {
+      res.status(500).json({ message: error.message });
+    });
+});
+
+// Create a action
+router.post("/actions", (req, res) => {});
+
 module.exports = router;
