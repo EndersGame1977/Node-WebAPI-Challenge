@@ -35,7 +35,18 @@ router.get("/:id", (req, res) => {
 });
 
 // Read actions on a project
-router.get("/:id/actions", (req, res) => {});
+router.get("/:id/actions", (req, res) => {
+  // helper
+  projects
+    .get(req.params.id)
+    // promise
+    .then(project => {
+      res.status(200).json(project.actions);
+    })
+    .catch(error => {
+      res.status(500).json({ message: error.message });
+    });
+});
 
 // Create project
 router.post("/", (req, res) => {});
