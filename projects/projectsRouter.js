@@ -49,7 +49,18 @@ router.get("/:id/actions", (req, res) => {
 });
 
 // Create project
-router.post("/", (req, res) => {});
+router.post("/", (req, res) => {
+  // helper
+  projects
+    .insert(req.body)
+    // promise
+    .then(project => {
+      res.status(200).json(project);
+    })
+    .catch(error => {
+      res.status(500).json({ message: error.message });
+    });
+});
 
 // Create action on a project
 router.post("/:id/actions", (req, res) => {});
